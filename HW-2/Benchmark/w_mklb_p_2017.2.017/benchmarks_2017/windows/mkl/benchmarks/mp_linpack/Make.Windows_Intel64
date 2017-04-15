@@ -1,0 +1,100 @@
+#===============================================================================
+# Copyright 2001-2017 Intel Corporation All Rights Reserved.
+#
+# The source code,  information  and material  ("Material") contained  herein is
+# owned by Intel Corporation or its  suppliers or licensors,  and  title to such
+# Material remains with Intel  Corporation or its  suppliers or  licensors.  The
+# Material  contains  proprietary  information  of  Intel or  its suppliers  and
+# licensors.  The Material is protected by  worldwide copyright  laws and treaty
+# provisions.  No part  of  the  Material   may  be  used,  copied,  reproduced,
+# modified, published,  uploaded, posted, transmitted,  distributed or disclosed
+# in any way without Intel's prior express written permission.  No license under
+# any patent,  copyright or other  intellectual property rights  in the Material
+# is granted to  or  conferred  upon  you,  either   expressly,  by implication,
+# inducement,  estoppel  or  otherwise.  Any  license   under such  intellectual
+# property rights must be express and approved by Intel in writing.
+#
+# Unless otherwise agreed by Intel in writing,  you may not remove or alter this
+# notice or  any  other  notice   embedded  in  Materials  by  Intel  or Intel's
+# suppliers or licensors in any way.
+#===============================================================================
+
+CC		= icl /nologo /Qopenmp
+CFLAGS		= /O3 /DAdd__ /DF77_INTEGER=int /DStringSunStyle /Iinclude /I"$(I_MPI_ROOT)\include"
+MKL_LIBS	= /link /libpath:"$(MKLROOT)\lib\intel64" mkl_intel_lp64.lib mkl_intel_thread.lib mkl_core.lib
+MPI_LIBS	= /link /libpath:"$(I_MPI_ROOT)\intel64\lib" impi.lib
+
+OBJS = \
+	HPL_1ring.obj          HPL_1rinM.obj          HPL_2ring.obj           HPL_2rinM.obj \
+	HPL_abort.obj          HPL_all_reduce.obj     HPL_barrier.obj         HPL_bcast.obj \
+	HPL_binit.obj          HPL_blong.obj          HPL_blonM.obj           HPL_broadcast.obj \
+	HPL_bwait.obj          HPL_copyL.obj          HPL_daxpy.obj           HPL_dcopy.obj \
+	HPL_dgemm.obj          HPL_dgemv.obj          HPL_dger.obj            HPL_dlacpy.obj \
+	HPL_dlamch.obj         HPL_dlaprnt.obj        HPL_dlaswp00N.obj       HPL_dlaswp01N.obj \
+	HPL_dlaswp01T.obj      HPL_dlaswp02N.obj      HPL_dlaswp03N.obj       HPL_dlaswp03T.obj \
+	HPL_dlaswp04N.obj      HPL_dlaswp04T.obj      HPL_dlaswp05N.obj       HPL_dlaswp05T.obj \
+	HPL_dlaswp06N.obj      HPL_dlaswp06T.obj      HPL_dlaswp10N.obj       HPL_dlatcpy.obj \
+	HPL_dlocmax.obj        HPL_dlocswpN.obj       HPL_dlocswpT.obj        HPL_dmatgen.obj \
+	HPL_dscal.obj          HPL_dswap.obj          HPL_dtrsm.obj           HPL_dtrsv.obj \
+	HPL_equil.obj          HPL_fprintf.obj        HPL_grid_exit.obj       HPL_grid_info.obj \
+	HPL_grid_init.obj      HPL_idamax.obj         HPL_indxg2l.obj         HPL_indxg2lp.obj \
+	HPL_indxg2p.obj        HPL_indxl2g.obj        HPL_infog2l.obj         HPL_jumpit.obj \
+	HPL_ladd.obj           HPL_lmul.obj           HPL_logsort.obj         HPL_max.obj \
+	HPL_min.obj            HPL_numrocI.obj        HPL_numroc.obj          HPL_pabort.obj \
+	HPL_packL.obj          HPL_pddriver.obj       HPL_pdfact.obj          HPL_pdgesv0.obj \
+	HPL_pdgesvK2.obj       HPL_pdgesv.obj         HPL_pdinfo.obj          HPL_pdlamch.obj \
+	HPL_pdlange.obj        HPL_pdlaprnt.obj       HPL_pdlaswp00N.obj      HPL_pdlaswp00T.obj \
+	HPL_pdlaswp01N.obj     HPL_pdlaswp01T.obj     HPL_pdmatgen.obj        HPL_pdmxswp.obj \
+	HPL_pdpancrN.obj       HPL_pdpancrT.obj       HPL_pdpanel_disp.obj    HPL_pdpanel_free.obj \
+	HPL_pdpanel_init.obj   HPL_pdpanel_new.obj    HPL_pdpanllN.obj        HPL_pdpanllT.obj \
+	HPL_pdpanrlN.obj       HPL_pdpanrlT.obj       HPL_pdrpancrN.obj       HPL_pdrpancrT.obj \
+	HPL_pdrpanllN.obj      HPL_pdrpanllT.obj      HPL_pdrpanrlN.obj       HPL_pdrpanrlT.obj \
+	HPL_pdtest.obj         HPL_pdtrsv.obj         HPL_pdupdateNN.obj      HPL_pdupdateNT.obj \
+	HPL_pdupdateTN.obj     HPL_pdupdateTT.obj     HPL_perm.obj            HPL_pipid.obj \
+	HPL_plindx0.obj        HPL_plindx10.obj       HPL_plindx1.obj         HPL_pnum.obj \
+	HPL_ptimer_walltime.obj HPL_ptimer.obj        HPL_pwarn.obj           HPL_rand.obj \
+	HPL_recv.obj           HPL_reduce.obj         HPL_rollN.obj           HPL_rollT.obj \
+	HPL_sdrv.obj           HPL_send.obj           HPL_setran.obj          HPL_spreadN.obj \
+	HPL_spreadT.obj        HPL_sum.obj            HPL_timer.obj           HPL_warn.obj \
+	HPL_xjumpm.obj         wtimer.obj
+
+{src\auxil}.c{}.obj ::
+        $(CC) /c $(CFLAGS) $<
+{src\blas}.c{}.obj ::
+        $(CC) /c $(CFLAGS) $<
+{src\comm}.c{}.obj ::
+        $(CC) /c $(CFLAGS) $<
+{src\grid}.c{}.obj ::
+        $(CC) /c $(CFLAGS) $<
+{src\panel}.c{}.obj ::
+        $(CC) /c $(CFLAGS) $<
+{src\pauxil}.c{}.obj ::
+        $(CC) /c $(CFLAGS) $<
+{src\pfact}.c{}.obj ::
+        $(CC) /c $(CFLAGS) $<
+{src\pgesv}.c{}.obj ::
+        $(CC) /c $(CFLAGS) $<
+{testing\matgen}.c{}.obj ::
+        $(CC) /c $(CFLAGS) $<
+{testing\pmatgen}.c{}.obj ::
+        $(CC) /c $(CFLAGS) $<
+{testing\ptest}.c{}.obj ::
+        $(CC) /c $(CFLAGS) $<
+{testing\ptimer}.c{}.obj ::
+        $(CC) /c $(CFLAGS) $<
+{testing\timer}.c{}.obj ::
+        $(CC) /c $(CFLAGS) $<
+
+all : xhpl.exe
+
+xhpl.exe : $(OBJS)
+	$(CC) /Fe$@ $(OBJS) $(MKL_LIBS) $(MPI_LIBS)
+
+wtimer.c : 
+	echo #include "mpi.h" > $@
+	echo double HPL_ptimer_cputime(void) { return MPI_Wtime();} >> $@
+	echo double HPL_timer_cputime (void) { return MPI_Wtime();} >> $@
+	echo double HPL_timer_walltime(void) { return MPI_Wtime();} >> $@
+
+clean :
+	del xhpl *.obj wtimer.c *~
