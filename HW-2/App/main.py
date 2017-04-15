@@ -32,25 +32,46 @@ def read_ref():
         for index,line in enumerate(ram_file):
             temp=line.strip().split(",")
             if len(temp)!=3:
-                print("[Warning] RAM Ref File Out Of Format In Line "+str(index))
-            ram_list.append(temp)
-            ram_total.append((float(temp[1])*user_input[0]/100)+(float(temp[2])*(1-user_input[0]/100)))
+                print("[Warning] RAM Ref File Out Of Format In Line "+str(index)+"-->"+str(line))
+            else:
+                ram_list.append(temp)
+                ram_total.append((float(temp[1])*user_input[0]/100)+(float(temp[2])*(1-user_input[0]/100)))
         for index,line in enumerate(hard_file):
             temp = line.strip().split(",")
             if len(temp)!=3:
-                print("[Warning] HARD Ref File Out Of Format In Line "+str(index))
-            hard_list.append(temp)
-            hard_total.append((float(temp[1]) * user_input[1] / 100) + float(temp[2]) * (1 - user_input[1] / 100))
+                print("[Warning] HARD Ref File Out Of Format In Line "+str(index)+"-->"+str(line))
+            else:
+                hard_list.append(temp)
+                hard_total.append((float(temp[1]) * user_input[1] / 100) + float(temp[2]) * (1 - user_input[1] / 100))
         for index,line in enumerate(cpu_file):
             temp = line.strip().split(",")
             if len(temp)!=3:
-                print("[Warning] CPU Ref File Out Of Format In Line "+str(index))
-            cpu_list.append(temp)
-            cpu_total.append((float(temp[1]) * user_input[2] / 100) + float(temp[2]) * (1 - user_input[2] / 100))
-        print("RAM :"+ram_list[ram_total.index(min(ram_total))][0])
-        print("RAM :" + cpu_list[cpu_total.index(min(cpu_total))][0])
-        print("RAM :" + hard_list[hard_total.index(min(hard_total))][0])
-        print("Total :"+str(min(cpu_total)+min(ram_total)+min(hard_total))+" W")
+                print("[Warning] CPU Ref File Out Of Format In Line "+str(index)+"-->"+str(line))
+            else:
+                cpu_list.append(temp)
+                cpu_total.append((float(temp[1]) * user_input[2] / 100) + float(temp[2]) * (1 - user_input[2] / 100))
+        if len(ram_total)!=0:
+            ram_min=min(ram_total)
+            print("RAM :" + ram_list[ram_total.index(ram_min)][0])
+        else:
+            ram_min=0
+            print("RAM : There is no item for RAM")
+        if len(cpu_total)!=0:
+            cpu_min=min(cpu_total)
+            print("CPU :" + cpu_list[cpu_total.index(cpu_min)][0])
+        else:
+            cpu_min=0
+            print("CPU : There is no item for CPU")
+
+        if len(hard_list)!=0:
+            hard_min=min(hard_total)
+        else:
+            hard_min=0
+            print("HARD : There is nor item for HARD")
+
+
+        print("HARD :" + hard_list[hard_total.index(hard_min)][0])
+        print("Total :"+str(cpu_min+hard_min+ram_min)+" W")
 
 
 
